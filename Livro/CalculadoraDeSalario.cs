@@ -65,6 +65,24 @@
             return new Dba();
         }
     }
+    public interface IRegraDeCalculo
+    {
+        double Calcula(Funcionario funcionario);
+    }
+    public class CalculaDezOuVintePorCento : IRegraDeCalculo
+    {
+        public double Calcula(Funcionario funcionario)
+        {
+            return funcionario.GetSalarioBase() * 0.8;
+        }
+    }
+    public class CalculaQuinzeOuVinteCincoPorCento : IRegraDeCalculo
+    {
+        public double Calcula(Funcionario funcionario)
+        {
+            return funcionario.GetSalarioBase() * 0.9;
+        }
+    }
 
     public class CalculadoraDeSalario
     {
@@ -76,11 +94,11 @@
             {
                 if (desenvolvedor.Equals(funcionario.GetCargo()))
                 {
-                    return DezOuVintePorCento(funcionario);
+                    return new CalculaDezOuVintePorCento().Calcula(funcionario);
                 }
                 if (dba.Equals(funcionario.GetCargo()))
                 {
-                    return QuinzeOuVinteCincoPorCento(funcionario);
+                    return new CalculaQuinzeOuVinteCincoPorCento().Calcula(funcionario);
                 }
 
                 return 0;
@@ -89,15 +107,6 @@
             {
                 throw new Exception(ex.Message);
             }
-        }
-
-        private double DezOuVintePorCento(Funcionario funcionario)
-        {
-            return funcionario.GetSalarioBase() * 0.8;
-        }
-        private double QuinzeOuVinteCincoPorCento(Funcionario funcionario)
-        {
-            return funcionario.GetSalarioBase() * 0.9;
         }
     }
 }
